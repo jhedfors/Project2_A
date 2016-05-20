@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/materialize.css') }}" type="text/css" rel="stylesheet" media="screen,projection"/>
+  </head>
+  <body>
+    <div class="wrapper">
+      {% with info = get_flashed_messages()[0]%}
+        {% if not 'errors' in info %}
+          {% set errors = 'none' %}
+        {% else %}
+          {% set errors = info['errors']%}
+        {% endif %}
+        {% if not 'reg_form' in info %}
+          {% set reg_form = 'none' %}
+        {% else %}
+          {% set reg_form = info['reg_form']%}
+        {% endif %}
+
+        {% if not 'login_form' in info %}
+          {% set login_form = 'none' %}
+        {% else %}
+          {% set login_form = info['login_form']%}
+        {% endif %}
+
+
+        <nav>
+          <div class="nav-wrapper">
+            <a href="#" class="brand-logo left">Quotable Quotes</a>
+          </div>
+        </nav>
+
+      <div class="row container">
+        <div class="col s6">
+          <h4>Register</h4>
+          <form class="" action="/register" method="post">
+            <label for="name">Name:</label>
+            <span class = 'error'>{{ errors['name'] }}</span>
+            <input type="text" name="name" value="{{reg_form['name']}}">
+            <label for="alias">Alias:</label>
+            <span class = 'error'>{{ errors['alias'] }}</span>
+            <input type="text" name="alias" value="{{reg_form['alias']}}">
+            <label for="email">Email:</label>
+            <span class = 'error'>{{ errors['email'] }}</span>
+            <input type="text" name="email" value="{{reg_form['email']}}">
+            <label for="password">Password:</label>
+            <span class = 'error'>{{ errors['password'] }}</span>
+            <input type="password" name="password" value="">
+            <label for="confirm_password">Confirm PW:</label>
+            <span class ='error'>{{ errors['confirm_password'] }}</span>
+            <input type="password" name="confirm_password" value="">
+            <label for="dob">Date of Birth:</label>
+            <span class ='error'>{{ errors['dob'] }}</span>
+            <input type="date" name="dob" value="">
+            <input class="btn" type="submit" value="Register">
+          </form>
+        </div>
+        <div class="col s6">
+          <h4>Login</h4>
+          <form class="" action="/login" method="post">
+            <label for="email">email:</label>
+            <span class = 'error'>{{ errors['login_email'] }}</span>
+            <input type="text" name="email" value="{{login_form['email']}}">
+            <label for="password">Password:</label>
+            <span class = 'error'>{{ errors['login_password'] }}</span>
+            <input type="password" name="password" value="">
+            <input class="btn" type="submit"value="Login">
+          </form>
+        </div>
+      </div>
+      {% endwith %}
+    </div>
+    <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.6/js/materialize.min.js"></script>
+    <script src="{{ url_for('static', filename='js/init.js') }}"></script>
+
+  </body>
+</html>

@@ -16,3 +16,6 @@ def initialize_libraries(app):
     @app.template_filter('myDate')
     def myDate(s):
         return s.strftime('%b %d %Y %I:%M %p')
+    @app.template_filter('smallDate')
+    def smallDate(s):
+        return s.strftime('%b %d %Y')
