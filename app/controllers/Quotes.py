@@ -17,8 +17,7 @@ class Quotes(Controller):
             flash(info)
         return redirect('/quotes')
     def destroy(self,quote_id):
-        self.models['Quote'].add_list(session['active_id'],quote_id)
-        # self.models['Quote'].destroy(quote_id)
+        self.models['Quote'].destroy(quote_id)
         return redirect('/quotes')
     def add_list(self,quote_id):
         self.models['Quote'].add_list(session['active_id'],quote_id)
