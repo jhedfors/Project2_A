@@ -19,7 +19,7 @@ class Quote(Model):
         values = {'active_id':active_id}
         return self.db.query_db(query,values)
     def show_non_favorites(self, active_id):
-        query = "SELECT DISTINCT quotes.id as quote_id, users.id as poster_id, users.alias as alias, speaker, quote from quotes LEFT JOIN users ON users.id = quotes.user_id LEFT JOIN favorites on favorites.quote_id = quotes.id WHERE NOT quotes.id in (SELECT quotes.id from quotes LEFT JOIN users ON users.id = quotes.user_id LEFT JOIN favorites on favorites.quote_id = quotes.id WHERE favorites.user_id = :active_id )"
+        query = "SELECT DISTINCT quotes.id as quote_id, users.id as poster_id, users.alias as alias, speaker, quote, (SELECT count(*) from favorites WHERE quote_id = quotes.id) as favorited from quotes LEFT JOIN users ON users.id = quotes.user_id LEFT JOIN favorites on favorites.quote_id = quotes.id WHERE NOT quotes.id in (SELECT quotes.id from quotes LEFT JOIN users ON users.id = quotes.user_id LEFT JOIN favorites on favorites.quote_id = quotes.id WHERE favorites.user_id = :active_id )"
         values = {'active_id':active_id}
         return self.db.query_db(query,values)
     def add_list(self, active_id, quote_id):
@@ -29,6 +29,10 @@ class Quote(Model):
     def remove_list(self, active_id, quote_id):
         query = "DELETE FROM favorites WHERE user_id = :user_id AND quote_id =:quote_id"
         values = {'user_id':active_id,'quote_id':quote_id}
+        return self.db.query_db(query,values)
+    def destroy(self, quote_id):
+        query = "DELETE FROM quotes WHERE id = :quote_id"
+        values = {'quote_id':quote_id}
         return self.db.query_db(query,values)
     def show_all_quotes_user(self, user_id):
         query = "SELECT users.alias as alias, speaker, quote from quotes LEFT JOIN users ON users.id = quotes.user_id WHERE users.id = :user_id"

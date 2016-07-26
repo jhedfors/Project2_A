@@ -19,16 +19,12 @@
         {%else%}
           {% set errors = info['errors'] %}
         {% endif %}
-
         {% if not 'add_form' in info %}
           {% set add_form = 'none' %}
         {%else%}
-
           {% set add_form = info['add_form'] %}
           {{add_form['quote']}}
         {% endif %}
-
-
       <div class="row">
         <nav>
           <div class="nav-wrapper container">
@@ -59,13 +55,17 @@
                     <p>
                       {{non_favorite['quote']}}
                     <br>Posted by: <a  href="/users/{{non_favorite['poster_id']}}">{{non_favorite['alias']}}</a>
+                    {% if non_favorite['poster_id'] == session['active_id'] %}
+                      {% if non_favorite['favorited'] == 0 %}
+                        | <a href="/destroy/{{non_favorite['quote_id']}}">Delete</a>
+                      {% endif %}
+                    {% endif %}
                   </p>
                   </div>
                   <div class="card-action">
                     <a href="/add_list/{{non_favorite['quote_id']}}">Add to My Favorites</a>
                   </div>
                 </div>
-
                   {% endfor %}
                 <a href="#new_quote" class="section btn-floating btn-large waves-effect waves-light red modal-trigger"><i class="material-icons">add</i></a>
               </div>
@@ -88,7 +88,6 @@
                        </p>
                      </div>
                      <div class="card-action">
-
                        <a href="/remove_list/{{favorite['quote_id']}}">Remove from My List</a>
                      </div>
                    </div>
@@ -122,10 +121,8 @@
             </div>
           </div>
         </div>
-
       </div>
         {%endwith%}
     </div>
-
   </body>
 </html>
